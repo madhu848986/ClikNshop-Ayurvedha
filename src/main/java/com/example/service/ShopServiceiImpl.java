@@ -67,12 +67,12 @@ public class ShopServiceiImpl implements ShopService {
         response.setLatitude(nearestShop.getLatitude());
         response.setLongitude(nearestShop.getLongitude());
         response.setOpen(nearestShop.getIsOpen());
-        response.setDistance(minDistance);
+        response.setDistanceInKm(minDistance);
 
         return response;
     }
 
-    // 🌍 Helper method for distance calculation (Haversine formula)
+    //  (Haversine formula)
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Radius of Earth in km
         double latDistance = Math.toRadians(lat2 - lat1);

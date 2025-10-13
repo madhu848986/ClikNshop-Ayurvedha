@@ -20,8 +20,6 @@ public class AuthController {
 	  @Autowired
 	    private UserService userService;
 
-	    // ===================== REGISTER =====================
-
 	    @PostMapping("/register/customer")
 	    public User registerCustomer(@RequestBody User user) {
 	        user.setRole("CUSTOMER");
@@ -40,8 +38,6 @@ public class AuthController {
 	        return userService.addUser(user);
 	    }
 
-	    // ===================== LOGIN =====================
-
 	    @PostMapping("/login")
 	    public String login(@RequestBody User loginRequest) {
 	        User user = userService.getUserByName(loginRequest.getName());
@@ -53,17 +49,16 @@ public class AuthController {
 	        return "Invalid username or password";
 	    }
 
-	    // ===================== GET CURRENT USER =====================
 
 	    @GetMapping("/me")
 	    public User me(@RequestHeader("sessionId") String sessionId) {
 	        if (SessionStore.isValid(sessionId)) {
 	            return SessionStore.getUser(sessionId);
 	        }
-	        return null; // Or throw an exception
+	        return null;
 	    }
 
-	    // ===================== LOGOUT =====================
+
 
 	    @PostMapping("/logout")
 	    public String logout(@RequestHeader("sessionId") String sessionId) {

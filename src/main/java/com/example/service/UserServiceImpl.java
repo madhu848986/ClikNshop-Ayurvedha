@@ -15,25 +15,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    // Add a new user
+   
     @Override
     public User addUser(User user) {
         return userDao.save(user);
     }
 
-    // Get all users
+  
     @Override
     public List<User> getAllUsers() {
         return userDao.findAll();
     }
 
-    // Get user by ID (without using Optional)
+    
     @Override
     public User getUserById(Long id) {
         return userDao.findById(id);
     }
 
-    // Update user details
+  
     @Override
     public User updateUser(Long id, User updatedUser) {
         User existingUser = getUserById(id);
@@ -42,12 +42,13 @@ public class UserServiceImpl implements UserService {
             existingUser.setEmail(updatedUser.getEmail());
             existingUser.setPassword(updatedUser.getPassword());
             existingUser.setRole(updatedUser.getRole());
-            return userDao.save(existingUser);
+            userDao.update(existingUser); 
+            return existingUser;
         }
         return null;
     }
 
-    // Delete user by ID
+    
     @Override
     public boolean deleteUser(Long id) {
         User user = getUserById(id);

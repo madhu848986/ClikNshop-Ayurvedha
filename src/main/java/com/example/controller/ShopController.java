@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.DTO.ShopResponse;
 import com.example.model.Shop;
 import com.example.service.ShopService;
 
@@ -43,6 +45,14 @@ public class ShopController {
         shop.setId(id);
         shopService.updateShop(shop);
         return shop;
+    }
+    @GetMapping("/nearest")
+    public ShopResponse getNearestShop(
+            @RequestParam Double userLat,
+            @RequestParam Double userLon,
+            @RequestParam Long productId) {
+
+        return shopService.findNearestShop(userLat, userLon, productId);
     }
 
     @DeleteMapping("/{id}")
