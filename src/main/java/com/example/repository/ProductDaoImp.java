@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,29 @@ public class ProductDaoImp implements ProductDao {
             p.setPrice(rs.getDouble("price"));
             return p;
         });
+    }
+    
+  
+    @Override
+    public Product findById(Long id) {
+        String sql = "SELECT * FROM products WHERE id = ?";
+        List<Product> products = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class), id);
+        return products.isEmpty() ? null : products.get(0);
+    }
+
+    // Update an existing product
+    @Override
+    public int update(Product product) {
+        String sql = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, product.getName(), product.getDescription(), product.getPrice(),
+               product.getId());
+    }
+
+    // Delete product by ID
+    @Override
+    public int deleteById(Long id) {
+        String sql = "DELETE FROM products WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 	
 }

@@ -5,7 +5,15 @@ import java.util.List;
 import com.example.model.User;
 
 public interface UserService {
+	  User addUser(User user);
 
-	 User createUser(User user);
-	 List<User> getAllUsers();
+	    List<User> getAllUsers();
+
+	    User getUserById(Long id);
+
+	    User updateUser(Long id, User updatedUser);
+
+	    boolean deleteUser(Long id);
+
+		User getUserByName(String name);
 }
