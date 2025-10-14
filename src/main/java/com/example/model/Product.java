@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Product {
@@ -34,11 +35,11 @@ public class Product {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public LocalDate getExpiry_date() {
+	public Date getExpiry_date() {
 		return expiry_date;
 	}
-	public void setExpiry_date(LocalDate expiry_date) {
-		this.expiry_date = expiry_date;
+	public void setExpiry_date(Date date) {
+		this.expiry_date = date;
 	}
 	public String getImage_url() {
 		return image_url;
@@ -50,7 +51,7 @@ public class Product {
     private Double price;
     private String description;
     private String category;
-    private LocalDate expiry_date;
+    private Date expiry_date;
     private String image_url;
 
 }

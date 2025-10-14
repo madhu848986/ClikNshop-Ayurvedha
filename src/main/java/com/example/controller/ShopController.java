@@ -18,7 +18,7 @@ import com.example.model.Shop;
 import com.example.service.ShopService;
 
 @RestController
-@RequestMapping("/shops")
+@RequestMapping("/api/shops")
 public class ShopController {
 
 	@Autowired

@@ -38,6 +38,9 @@ public class ProdutServiceImpl implements ProductService {
             existing.setName(product.getName());
             existing.setDescription(product.getDescription());
             existing.setPrice(product.getPrice());
+            existing.setCategory(product.getCategory());
+            existing.setExpiry_date(product.getExpiry_date());
+            existing.setImage_url(product.getImage_url());
             productDao.update(existing);
             return existing;
         }

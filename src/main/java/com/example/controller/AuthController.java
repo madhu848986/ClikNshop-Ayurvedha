@@ -1,72 +1,83 @@
 package com.example.controller;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.Session.SessionStore;
 import com.example.model.User;
 import com.example.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	  @Autowired
-	    private UserService userService;
+    
+    @Autowired
+    private UserService userService;
 
-	    @PostMapping("/register/customer")
-	    public User registerCustomer(@RequestBody User user) {
-	        user.setRole("CUSTOMER");
-	        return userService.addUser(user);
-	    }
+    @PostMapping("/register/customer")
+    public ResponseEntity<?> registerCustomer(@RequestBody User user) {
+        try {
+            System.out.println("Registering customer: " + user.getUsername());
+            user.setRole("CUSTOMER");
+            User savedUser = userService.addUser(user);
+            System.out.println("User registered successfully with ID: " + savedUser.getId());
+            
+            // Return user without password for security
+            savedUser.setPassword(null);
+            return ResponseEntity.ok(savedUser);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Registration failed: " + e.getMessage());
+        }
+    }
 
-	    @PostMapping("/register/shop")
-	    public User registerShopOwner(@RequestBody User user) {
-	        user.setRole("SHOP_OWNER");
-	        return userService.addUser(user);
-	    }
+    @PostMapping("/register/shop")
+    public ResponseEntity<?> registerShopOwner(@RequestBody User user) {
+        try {
+            System.out.println("Registering shop owner: " + user.getUsername());
+            user.setRole("SHOP_OWNER");
+            User savedUser = userService.addUser(user);
+            savedUser.setPassword(null);
+            return ResponseEntity.ok(savedUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Registration failed: " + e.getMessage());
+        }
+    }
 
-	    @PostMapping("/register/admin")
-	    public User registerAdmin(@RequestBody User user) {
-	        user.setRole("ADMIN");
-	        return userService.addUser(user);
-	    }
+    @PostMapping("/register/admin")
+    public ResponseEntity<?> registerAdmin(@RequestBody User user) {
+        try {
+            System.out.println("Registering admin: " + user.getUsername());
+            user.setRole("ADMIN");
+            User savedUser = userService.addUser(user);
+            savedUser.setPassword(null);
+            return ResponseEntity.ok(savedUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Registration failed: " + e.getMessage());
+        }
+    }
 
-	    @PostMapping("/login")
-	    public String login(@RequestBody User loginRequest) {
-	        User user = userService.getUserByName(loginRequest.getName());
-	        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-	            String sessionId = UUID.randomUUID().toString();
-	            SessionStore.addSession(sessionId, user);
-	            return "Login successful. Session ID: " + sessionId + " (Role: " + user.getRole() + ")";
-	        }
-	        return "Invalid username or password";
-	    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
+        try {
+            System.out.println("Login attempt for: " + loginRequest.getUsername());
+            User user = userService.getUserByName(loginRequest.getUsername());
+            
+            if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
+                // Login successful - return user info without password
+                user.setPassword(null);
+                return ResponseEntity.ok(user);
+            }
+            return ResponseEntity.status(401).body("Invalid username or password");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Login failed: " + e.getMessage());
+        }
+    }
 
-
-	    @GetMapping("/me")
-	    public User me(@RequestHeader("sessionId") String sessionId) {
-	        if (SessionStore.isValid(sessionId)) {
-	            return SessionStore.getUser(sessionId);
-	        }
-	        return null;
-	    }
-
-
-
-	    @PostMapping("/logout")
-	    public String logout(@RequestHeader("sessionId") String sessionId) {
-	        if (SessionStore.isValid(sessionId)) {
-	            SessionStore.removeSession(sessionId);
-	            return "Logout successful";
-	        }
-	        return "Invalid session";
-	    }
-
+    // Remove the /me and /logout endpoints since we're not using sessions
 }

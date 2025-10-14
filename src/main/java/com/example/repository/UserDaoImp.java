@@ -16,7 +16,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public User save(User user) {
         String sql = "INSERT INTO users (username, password, email, city, latitude, longitude, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getName(), user.getPassword(), user.getEmail(),
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),
                 user.getCity(), user.getLatitude(), user.getLongitude(), user.getRole());
         return user;
     }
@@ -51,7 +51,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public void update(User user) {
         String sql = "UPDATE users SET username=?, password=?, email=?, city=?, latitude=?, longitude=?, role=? WHERE id=?";
-        jdbcTemplate.update(sql, user.getName(), user.getPassword(), user.getEmail(),
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),
                 user.getCity(), user.getLatitude(), user.getLongitude(), user.getRole(), user.getId());
     }
 
