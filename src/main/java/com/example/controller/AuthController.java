@@ -79,5 +79,5 @@ public class AuthController {
         }
     }
 
-    // Remove the /me and /logout endpoints since we're not using sessions
+   
 }

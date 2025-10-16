@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.DTO.ShopResponse;
 import com.example.model.Shop;
+import com.example.repository.OrderDao;
+import com.example.repository.ProductDao;
 import com.example.repository.ShopDao;
+import com.example.repository.UserDao;
 
 @Service
 public class ShopServiceiImpl implements ShopService {
@@ -15,7 +18,7 @@ public class ShopServiceiImpl implements ShopService {
 
     @Autowired
     private ShopDao shopDao;
-
+  
     @Override
     public Shop getShopById(Long id) {
         return shopDao.findById(id);

@@ -3,10 +3,11 @@ package com.example.service;
 import java.util.List;
 
 import com.example.DTO.ShopResponse;
+
 import com.example.model.Shop;
 
 public interface ShopService {
-
+	
 
     Shop getShopById(Long id);
 

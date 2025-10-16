@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,22 @@ import com.example.service.ShopService;
 @RequestMapping("/api/shops")
 public class ShopController {
 
-	@Autowired
+    @Autowired
     private ShopService shopService;
 
+    // DTO for status update
+    public static class UpdateStatusRequest {
+        private boolean open;
+        
+        public boolean isOpen() {
+            return open;
+        }
+        
+        public void setOpen(boolean open) {
+            this.open = open;
+        }
+    }
+  
     @GetMapping
     public List<Shop> getAllShops() {
         return shopService.getAllShops();
@@ -46,6 +60,7 @@ public class ShopController {
         shopService.updateShop(shop);
         return shop;
     }
+
     @GetMapping("/nearest")
     public ShopResponse getNearestShop(
             @RequestParam Double userLat,
